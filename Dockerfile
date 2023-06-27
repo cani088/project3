@@ -12,4 +12,4 @@ RUN ls
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "app_working_Vladimir.py" ]
+CMD [ "app.py" ]
