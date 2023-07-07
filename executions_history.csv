@@ -1,1 +1,2 @@
 "executed_at","total_images","total_payload_size","transfer_speed","executed_on","execution_time_on_service","total_time"
+07-07-2023 22:32:53,7,1.43MB,0.87MB/s,http://ec2-44-212-28-11.compute-1.amazonaws.com,31.91 seconds,64.23 seconds

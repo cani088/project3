@@ -23,8 +23,8 @@ for filename in os.listdir(folder_path):
 # Create the request payload
 payload = base64_strings
 # Send the POST request to the API
-# url = 'http://localhost'
-url = 'http://ec2-44-212-28-11.compute-1.amazonaws.com'
+url = 'http://localhost'
+# url = 'http://ec2-44-212-28-11.compute-1.amazonaws.com'
 
 start_time = time.time()
 response = requests.post(url + ':5000/api/detect', json=payload)
@@ -41,31 +41,28 @@ result = {
     "image_objects": response['image_objects'],
     "payload": {
         "total_execution_time_on_server": response['total_execution_time'],
-        "transfer_speed": payload_size / transfer_time
+        "transfer_speed": (payload_size / 1000000) / transfer_time
     }
 }
 
 append_to_csv = {
-    "executed_at": start_time,
-    "total_images": len(payload),
-    "total_payload_size": payload_size,
-    "transfer_speed": result['payload']['transfer_speed'],
+    "executed_at": str(time.strftime('%d-%m-%Y %H:%M:%S', time.gmtime(start_time))),
+    "total_images": str(len(payload)),
+    "total_payload_size": str(round(payload_size / 1000000, 2)) + "MB",
+    "transfer_speed": str(round(result['payload']['transfer_speed'], 2)) + "MB/s",
     "executed_on": url,
-    "execution_time_on_service": result['payload']['total_execution_time_on_server'],
-    "total_time": end_time - start_time + result['payload']['total_execution_time_on_server'],
+    "execution_time_on_service": str(round(result['payload']['total_execution_time_on_server'], 2)) + " seconds",
+    "total_time": str(round(end_time - start_time + result['payload']['total_execution_time_on_server'], 2)) + " seconds",
 }
 
 with open('executions_history.csv', mode="a") as csv_file:
     a = append_to_csv
-    write_string = str(time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(a['executed_at'])))
-    write_string += "," + str(a['total_images'])
-    write_string += "," + str(a['total_payload_size'] / 1000) + "MB"
-    write_string += "," + str(a['transfer_speed'] / 1000) + "MB/s"
-    write_string += "," + str(a['executed_on'])
-    write_string += "," + str(a['execution_time_on_service'])
-    write_string += "," + str(a['total_time'])
-    write_string += "\n"
-    csv_file.write(str(write_string))
+    append_string = ""
+    for key in append_to_csv:
+        append_string += append_to_csv[key] + ","
+
+    append_string = append_string[:-1] + "\n"
+    csv_file.write(str(append_string))
 
 # Process the result as needed
 print(result)
