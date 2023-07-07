@@ -1,3 +1,5 @@
+import sys
+
 import requests
 import tensorflow as tf
 import os
@@ -21,20 +23,26 @@ for filename in os.listdir(folder_path):
 # Create the request payload
 payload = base64_strings
 # Send the POST request to the API
-result = []
-for url in [
-    'http://localhost',
-    'http://ec2-54-161-156-22.compute-1.amazonaws.com'
-]:
-    start_time = time.time()
-    response = requests.post(url + ':5000/api/detect', json=payload)
-    # Get the JSON response
-    response = response.json()
-    end_time = time.time()
-    result.append({
-        "url": url,
-        "result": response,
-        "total_time": end_time - start_time + response['inference_time']
-    })
-    # Process the result as needed
+# url = 'http://localhost'
+url = 'http://ec2-44-212-28-11.compute-1.amazonaws.com'
+
+start_time = time.time()
+response = requests.post(url + ':5000/api/detect', json=payload)
+# Get the JSON response
+response = response.json()
+end_time = time.time()
+payload_size = 0
+for img in base64_strings:
+    payload_size = payload_size + sys.getsizeof(img)
+
+transfer_time = response['payload_received_at'] - start_time
+
+result = {
+    "image_objects": response['image_objects'],
+    "payload": {
+        "total_execution_time_on_server": response['total_execution_time'],
+        "transfer_speed": str(payload_size / transfer_time) + " B/s"
+    }
+}
+# Process the result as needed
 print(result)

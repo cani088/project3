@@ -1,3 +1,5 @@
+import sys
+
 from flask import Flask, request
 import tensorflow as tf
 import tensorflow_hub as hub
@@ -43,16 +45,20 @@ def detection_loop(detector, images):
 # Routing HTTP posts to this method
 @app.route('/api/detect', methods=['POST'])
 def main():
-    start_time = time.time()
+    received_at = time.time()
     images = request.get_json(force=True)
     # Perform object detection on images
     module_handle = "https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1"
     detector = hub.load(module_handle).signatures['default']
 
     result = detection_loop(detector, images)
-    end_time = time.time()
 
-    return {"image_objects": result, "inference_time": end_time - start_time}
+    return {
+        "image_objects": result,
+        "payload_received_at": received_at,
+        "payload_sent_at": time.time(),
+        "total_execution_time": time.time() - received_at
+    }
 
 
 if __name__ == '__main__':
