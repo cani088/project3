@@ -8,7 +8,6 @@ COPY ./requirements.txt /app/requirements.txt
 WORKDIR /app
 
 RUN pip3 install --upgrade pip; pip3 install --no-cache-dir -r requirements.txt;
-RUN ls
 
 ENTRYPOINT [ "python3" ]
 

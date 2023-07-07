@@ -26,11 +26,11 @@ payload = base64_strings
 # url = 'http://localhost'
 url = 'http://ec2-44-212-28-11.compute-1.amazonaws.com'
 
-start_time = time.time()
+start_time = time.gmtime()
 response = requests.post(url + ':5000/api/detect', json=payload)
 # Get the JSON response
 response = response.json()
-end_time = time.time()
+end_time = time.gmtime()
 payload_size = 0
 for img in base64_strings:
     payload_size = payload_size + sys.getsizeof(img)
@@ -41,8 +41,31 @@ result = {
     "image_objects": response['image_objects'],
     "payload": {
         "total_execution_time_on_server": response['total_execution_time'],
-        "transfer_speed": str(payload_size / transfer_time) + " B/s"
+        "transfer_speed": payload_size / transfer_time
     }
 }
+
+append_to_csv = {
+    "executed_at": start_time,
+    "total_images": len(payload),
+    "total_payload_size": payload_size,
+    "transfer_speed": result['payload']['transfer_speed'],
+    "executed_on": url,
+    "execution_time_on_service": result['payload']['total_execution_time_on_server'],
+    "total_time": end_time - start_time + result['payload']['total_execution_time_on_server'],
+}
+
+with open('executions_history.csv', mode="a") as csv_file:
+    a = append_to_csv
+    write_string = str(time.strftime('%Y-%m-%d %H:%M:%S', a['executed_at']))
+    write_string += "," + str(a['total_images'])
+    write_string += "," + str(a['total_payload_size'] / 1000) + "MB"
+    write_string += "," + str(a['transfer_speed'] / 1000) + "MB/s"
+    write_string += "," + str(a['executed_on'])
+    write_string += "," + str(round(a['execution_time_on_service'], 2))
+    write_string += "," + str(round(a['total_time'], 2)) + " seconds"
+    write_string += "\n"
+    csv_file.write(str(write_string))
+
 # Process the result as needed
 print(result)

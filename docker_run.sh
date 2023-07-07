@@ -1,1 +1,1 @@
-docker run -d -p 5000:5000 dic-assignment
+docker run -v /home/ec2-user/project3:/app -d -p 5000:5000 dic-assignment
