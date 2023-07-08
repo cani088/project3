@@ -4,3 +4,4 @@ Date,Total Images,Payload Size,Transfer Speed,Execution Location,Total Execution
 08-07-2023 21:08:12,15,3.67MB,7.81MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,36.01 seconds,72.46 seconds,0.88 seconds
 08-07-2023 21:09:54,25,5.8MB,12.73MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,36.95 seconds,74.33 seconds,0.59 seconds
 08-07-2023 21:10:59,100,21.93MB,45.14MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,69.09 seconds,138.64 seconds,0.28 seconds
+08-07-2023 21:14:21,100,21.93MB,1.08MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,46.76 seconds,113.89 seconds,0.29 seconds

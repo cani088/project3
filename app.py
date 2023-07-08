@@ -48,9 +48,12 @@ def detection_loop(detector, images):
 # Routing HTTP posts to this method
 @app.route('/api/detect', methods=['POST'])
 def main():
-    images = request.get_json(force=True)
     received_at = time.time()
-
+    images = request.get_json(force=True)
+    payload_size = request.headers.get('Content-Length')
+    transfer_time = time.time() - received_at
+    transfer_speed = (payload_size / 1000000) / transfer_time
+    transfer_speed = str(round(transfer_speed, 2)) + "MB/s"
     # Perform object detection on images
     module_handle = "https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1"
     detector = hub.load(module_handle).signatures['default']
@@ -58,11 +61,14 @@ def main():
     objects, avg_inference_time = detection_loop(detector, images)
 
     return {
+        "stats": {
+            "executed_at": str(time.strftime('%d-%m-%Y %H:%M:%S', time.gmtime(received_at))),
+            "total_images": str(len(images)),
+            "total_payload_size": str(round(payload_size / 1000000, 2)) + "MB",
+            "transfer_speed": transfer_speed,
+            "avg_inference_time": round(avg_inference_time, 2),
+        },
         "image_objects": objects,
-        "avg_inference_time": avg_inference_time,
-        "payload_received_at": received_at,
-        "payload_sent_at": time.time(),
-        "total_execution_time": time.time() - received_at
     }
 
 
