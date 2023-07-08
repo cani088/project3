@@ -52,7 +52,7 @@ def main():
     images = request.get_json(force=True)
     payload_size = request.headers.get('Content-Length')
     transfer_time = time.time() - received_at
-    transfer_speed = (payload_size / 1000000) / transfer_time
+    transfer_speed = (int(payload_size) / 1000000) / transfer_time
     transfer_speed = str(round(transfer_speed, 2)) + "MB/s"
     # Perform object detection on images
     module_handle = "https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1"
