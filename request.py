@@ -53,6 +53,7 @@ append_to_csv = {
     "executed_on": url,
     "execution_time_on_service": str(round(result['payload']['total_execution_time_on_server'], 2)) + " seconds",
     "total_time": str(round(end_time - start_time + result['payload']['total_execution_time_on_server'], 2)) + " seconds",
+    "avg_inference_time": str(round(response["avg_inference_time"], 2)) + " seconds"
 }
 
 with open('executions_history.csv', mode="a") as csv_file:

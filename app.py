@@ -48,8 +48,9 @@ def detection_loop(detector, images):
 # Routing HTTP posts to this method
 @app.route('/api/detect', methods=['POST'])
 def main():
-    received_at = time.time()
     images = request.get_json(force=True)
+    received_at = time.time()
+
     # Perform object detection on images
     module_handle = "https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1"
     detector = hub.load(module_handle).signatures['default']
