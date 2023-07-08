@@ -5,10 +5,10 @@ import tensorflow as tf
 import os
 import time
 
-folder_path = 'object-detection-SMALL_2_files'
+folder_path = 'object-detection-SMALL'
 base64_strings = []
 names = []
-for filename in os.listdir(folder_path):
+for filename in os.listdir(folder_path)[:100]:
     # Read all the files in a folder
     temp_path = os.path.join(folder_path, filename)
     # Read file with tensorflow
@@ -23,8 +23,8 @@ for filename in os.listdir(folder_path):
 # Create the request payload
 payload = base64_strings
 # Send the POST request to the API
-url = 'http://localhost'
-# url = 'http://ec2-44-212-28-11.compute-1.amazonaws.com'
+# url = 'http://localhost'
+url = 'http://ec2-54-174-141-192.compute-1.amazonaws.com'
 
 start_time = time.time()
 response = requests.post(url + ':5000/api/detect', json=payload)

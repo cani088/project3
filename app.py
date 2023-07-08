@@ -11,10 +11,11 @@ app = Flask(__name__)
 
 
 def detection_loop(detector, images):
-    print(f"Loop entered, yes")
     res = []
+    execution_times = []
     try:
         for image in images:
+            start_time = time.time()
             # Replace symbols to make it Web-safe for tensorflow
             img = image.replace('/', '_').replace('+', '-')
 
@@ -32,6 +33,8 @@ def detection_loop(detector, images):
 
             # Append the detected classes to the result list
             res.append(classes)
+            end_time = time.time()
+            execution_times.append(end_time - start_time)
 
     except Exception as e:
         return {"error": str(e)}
@@ -39,7 +42,7 @@ def detection_loop(detector, images):
     # Convert the list to JSON string
     json_data = json.dumps(res)
     # Return JSON data
-    return json_data
+    return json_data, sum(execution_times) / len(execution_times)
 
 
 # Routing HTTP posts to this method
@@ -51,10 +54,11 @@ def main():
     module_handle = "https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1"
     detector = hub.load(module_handle).signatures['default']
 
-    result = detection_loop(detector, images)
+    objects, avg_inference_time = detection_loop(detector, images)
 
     return {
-        "image_objects": result,
+        "image_objects": objects,
+        "avg_inference_time": avg_inference_time,
         "payload_received_at": received_at,
         "payload_sent_at": time.time(),
         "total_execution_time": time.time() - received_at
