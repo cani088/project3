@@ -67,6 +67,7 @@ def main():
             "total_payload_size": str(round(payload_size / 1000000, 2)) + "MB",
             "transfer_speed": transfer_speed,
             "avg_inference_time": round(avg_inference_time, 2),
+            "total_execution_time": time.time() - received_at
         },
         "image_objects": objects,
     }
