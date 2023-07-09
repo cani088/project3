@@ -15,6 +15,7 @@ def detection_loop(detector, images):
     execution_times = []
     try:
         for image in images:
+            # Record the time when the image started processing
             start_time = time.time()
             # Replace symbols to make it Web-safe for tensorflow
             img = image.replace('/', '_').replace('+', '-')
@@ -33,7 +34,9 @@ def detection_loop(detector, images):
 
             # Append the detected classes to the result list
             res.append(classes)
+            # Record the time when the image finished processing
             end_time = time.time()
+            # Add the recorded time to the list of times
             execution_times.append(end_time - start_time)
 
     except Exception as e:
@@ -41,17 +44,21 @@ def detection_loop(detector, images):
 
     # Convert the list to JSON string
     json_data = json.dumps(res)
-    # Return JSON data
+    # Return JSON data which consists the objects found in the images and the average inference time for image processing
     return json_data, sum(execution_times) / len(execution_times)
 
 
 # Routing HTTP posts to this method
 @app.route('/api/detect', methods=['POST'])
 def main():
+    # Record the time when the request was received
     received_at = time.time()
     images = request.get_json(force=True)
+    # Get the total size of the request
     payload_size = int(request.headers.get('Content-Length'))
+    # Calculate how long it took from when we received the request until the request was fully transferred and processed
     transfer_time = time.time() - received_at
+    # Calculate the speed
     transfer_speed = (payload_size / 1000000) / transfer_time
     transfer_speed = str(round(transfer_speed, 2)) + "MB/s"
     # Perform object detection on images
@@ -60,6 +67,7 @@ def main():
 
     objects, avg_inference_time = detection_loop(detector, images)
 
+    # Return response to user
     return {
         "stats": {
             "executed_at": str(time.strftime('%d-%m-%Y %H:%M:%S', time.gmtime(received_at))),

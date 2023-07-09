@@ -1,7 +1,18 @@
-Date,Total Images,Payload Size,Transfer Speed,Execution Location,Total Execution time on server,End-to-end,Avg Inference Time
-08-07-2023 21:04:59,5,1.06MB,2.45MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,32.05 seconds,64.5 seconds,2.27
-08-07-2023 21:07:23,10,2.31MB,5.34MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,32.52 seconds,65.43 seconds,1.2 seconds
-08-07-2023 21:08:12,15,3.67MB,7.81MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,36.01 seconds,72.46 seconds,0.88 seconds
-08-07-2023 21:09:54,25,5.8MB,12.73MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,36.95 seconds,74.33 seconds,0.59 seconds
-08-07-2023 21:10:59,100,21.93MB,45.14MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,69.09 seconds,138.64 seconds,0.28 seconds
-08-07-2023 21:14:21,100,21.93MB,1.08MB/s,http://ec2-54-174-141-192.compute-1.amazonaws.com,46.76 seconds,113.89 seconds,0.29 seconds
+Date,Total Images,Payload Size,Transfer Speed,Total Execution time on server (s),Avg Inference Time (s),Location
+09-07-2023 00:12:28,1,0.19MB,0.39MB/s,37.73,11.19,AWS
+09-07-2023 00:13:35,2,0.46MB,0.48MB/s,30.08,5.72,AWS
+09-07-2023 00:14:38,5,1.06MB,0.49MB/s,32.0,2.34,AWS
+09-07-2023 00:17:13,10,2.31MB,0.64MB/s,34.01,1.26,AWS
+09-07-2023 00:19:17,20,4.86MB,0.99MB/s,37.92,0.73,AWS
+09-07-2023 00:22:12,50,10.98MB,1.04MB/s,48.16,0.39,AWS
+09-07-2023 00:24:08,100,21.92MB,1.37MB/s,61.55,0.28,AWS
+09-07-2023 00:27:06,200,43.57MB,1.2MB/s,101.71,0.23,AWS
+09-07-2023 15:08:38,1,0.19MB,302.59MB/s,27.1,9.57,http://localhost
+09-07-2023 15:09:27,2,0.46MB,89.13MB/s,31.98,4.9,http://localhost
+09-07-2023 15:10:36,5,1.06MB,94.57MB/s,29.02,2.0,http://localhost
+09-07-2023 15:11:11,10,2.31MB,53.92MB/s,35.72,1.22,http://localhost
+09-07-2023 15:13:14,20,4.86MB,98.42MB/s,29.48,0.59,http://localhost
+09-07-2023 15:15:28,50,10.98MB,75.8MB/s,32.17,0.28,http://localhost
+09-07-2023 15:17:10,100,21.92MB,73.23MB/s,37.8,0.19,http://localhost
+09-07-2023 15:19:20,200,43.57MB,61.3MB/s,45.5,0.14,http://localhost
+,,,,,,
